@@ -9,5 +9,5 @@ CreateBlogUseruserViewRouter.register('', CreateBlogUseruserView)
 
 urlpatterns = [
     path('login_all_user/', views.login_all_user.as_view()),
-    path('createbloguser/', include(CreateBlogUseruserViewRouter.urls)),
+    path('createbloguser/', include(CreateBlogUseruserViewRouter.urls)), # 新增博主
 ]
