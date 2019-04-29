@@ -1,11 +1,9 @@
 from rest_framework.views import APIView
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from django_restframework.exceptions import exception
-from django.contrib.auth import login
 from rest_framework.response import Response
 from rest_framework import status
 from django_restframework.utils.auth.auth import checkauth
 from django_restframework.utils.tokens.token import createtoken
+from blog_backend.utils.captcha.check_captcha import captcha_instance
 
 """
 1. 博主登录
@@ -23,6 +21,10 @@ class userloginAPI(APIView):
         token = createtoken.create_token(
             user=user
         ) # 生成token
+        captcha_instance.check_captcha(
+            timestamp=request.data.get("timestamp",None),
+            captcha=request.data.get("captcha",None),
+        )
 
         return Response({
             "success": True,
