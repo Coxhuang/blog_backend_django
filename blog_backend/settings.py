@@ -202,5 +202,20 @@ AUTHENTICATION_BACKENDS = (
     'django_restframework.authenticates.authenticate.CustomBackend',
 )
 
+"""
+------------------------  django 缓存 Config ------------------------
+"""
+MY_CACHES_3 = {
+    "HOST":"127.0.0.1",
+    "PORT":6379,
+    "DB":0
+}
+
+
+"""
+----------------------- 参数 -----------------------
+"""
+PRIVATEKEYHASH = "fbsjnjmxkasdjhfvnznvjd" # 加密盐
+CAPTCHA_EXPIRE = 60 # 验证码生命周期
 
 
