@@ -38,13 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user',
+    'blog',
+    'django_restframework',
     'rest_framework.authtoken',
     'rest_framework',
     'django_filters',
     'django_crontab',
     'corsheaders',
-    'user',
-    'blog',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'user.middleware.myMiddleware'
+    # 'user.middleware.myMiddleware'
 ]
 
 
@@ -65,8 +66,7 @@ ROOT_URLCONF = 'blog_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -177,12 +177,14 @@ CORS_ALLOW_HEADERS = (
 AUTH_USER_MODEL = 'user.userprofile'
 
 REST_FRAMEWORK = {
+"DEFAULT_VERSION": 'v1',  # 默认的版本
+    "ALLOWED_VERSIONS": ['v1', 'v2'],  # 允许的版本
+    "VERSION_PARAM": 'version',  # GET方式url中参数的名字  ?version=xxx
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer', # 浏览器模式
     ),
-
     'EXCEPTION_HANDLER': 'django_restframework.exceptions.exception.custom_exception_handler',
 }
 
@@ -196,6 +198,9 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=1)
 }
 
-# AUTHENTICATION_BACKENDS = (
-#     'apps.User.utils.mycustombackend.custombackend.CustomBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+    'django_restframework.authenticates.authenticate.CustomBackend',
+)
+
+
+
